@@ -1,15 +1,21 @@
 package com.zipcodewilmington.singlylinkedlist;
 
+import java.lang.reflect.Method;
+import java.util.Date;
+
+import static java.lang.Thread.sleep;
+
 /**
  * Created by leon on 1/10/18.
  */
 public class SinglyLinkedList<T> {
-    private int size = 0;
+    private int size;
 
     private Node<T> head;
     private Node<T> tail;
 
     public SinglyLinkedList() {
+        this.size = 0;
     }
 
     public void add(T item) {
@@ -80,7 +86,31 @@ public class SinglyLinkedList<T> {
     }
 
     public SinglyLinkedList<T> copy() {
-        return null;
+        SinglyLinkedList<T> listCopy;
+        if (size < 1) {
+            listCopy = new SinglyLinkedList<>();
+        } else if (head.item instanceof Cloneable) {
+            listCopy = deepCopy();
+        } else {
+            listCopy = shallowCopy();
+        }
+        return listCopy;
+    }
+
+    private SinglyLinkedList<T> deepCopy() {
+        SinglyLinkedList<T> listCopy = new SinglyLinkedList<>();
+        for (Node<T> node = head; node != null; node = node.next) {
+            listCopy.add(node.cloneItem());
+        }
+        return listCopy;
+    }
+
+    private SinglyLinkedList<T> shallowCopy() {
+        SinglyLinkedList<T> listCopy = new SinglyLinkedList<>();
+        for (Node<T> node = head; node != null; node = node.next) {
+            listCopy.add(node.item);
+        }
+        return listCopy;
     }
 
     public void sort() {
@@ -94,6 +124,20 @@ public class SinglyLinkedList<T> {
         Node(T item, Node<T> next) {
             this.item = item;
             this.next = next;
+        }
+
+        @SuppressWarnings("unchecked")
+        T cloneItem() {
+            T clone;
+            try {
+                Method m = item.getClass().getDeclaredMethod("clone");
+                clone = (T) m.invoke(item);
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("Error trying to clone element. Doing shallow copy");
+                clone = item;
+            }
+            return clone;
         }
     }
 }

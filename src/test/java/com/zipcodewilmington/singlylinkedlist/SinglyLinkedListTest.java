@@ -3,6 +3,8 @@ package com.zipcodewilmington.singlylinkedlist;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.Date;
+
 /**
  * Created by leon on 1/10/18.
  */
@@ -68,12 +70,12 @@ public class SinglyLinkedListTest {
     @Test
     public void findTest2() {
         // Given
-        Integer item = 8;
-        SinglyLinkedList<Integer> singLinkList = new SinglyLinkedList<>();
-        singLinkList.add(89);
-        singLinkList.add(45);
+        String item = "hi";
+        SinglyLinkedList<String> singLinkList = new SinglyLinkedList<>();
+        singLinkList.add("asdf");
+        singLinkList.add("fdsa");
         singLinkList.add(item);
-        singLinkList.add(987);
+        singLinkList.add("oaiusdgf");
         Integer expectedIndex = 2;
 
         // When
@@ -157,6 +159,19 @@ public class SinglyLinkedListTest {
     @Test(expected = IndexOutOfBoundsException.class)
     public void getTest2() {
         // Given
+        SinglyLinkedList<Long> singLinkList = new SinglyLinkedList<>();
+        singLinkList.add(89L);
+        singLinkList.add(45L);
+        singLinkList.add(98L);
+        singLinkList.add(987L);
+
+        // When
+        Long item = singLinkList.get(5);
+    }
+
+    @Test
+    public void copyTest1() {
+        // Given
         SinglyLinkedList<Integer> singLinkList = new SinglyLinkedList<>();
         singLinkList.add(89);
         singLinkList.add(45);
@@ -164,11 +179,67 @@ public class SinglyLinkedListTest {
         singLinkList.add(987);
 
         // When
-        Integer item = singLinkList.get(5);
+        SinglyLinkedList<Integer> copy = singLinkList.copy();
+
+        // Then
+
+        for (int i = 0; i < singLinkList.size(); i++) {
+            Assert.assertEquals(singLinkList.get(i), copy.get(i));
+        }
     }
 
     @Test
-    public void copy() {
+    public void copyTest2() {
+        // Given
+        SinglyLinkedList<Date> singLinkList = new SinglyLinkedList<>();
+        singLinkList.add(new Date(10000098475L));
+        singLinkList.add(new Date(2459873459L));
+        singLinkList.add(new Date(92304875L));
+        singLinkList.add(new Date(9823475L));
+
+        // When
+        SinglyLinkedList<Date> copy = singLinkList.copy();
+
+        // Then
+        for (int i = 0; i < singLinkList.size(); i++) {
+            Assert.assertEquals(singLinkList.get(i), copy.get(i));
+        }
+    }
+
+    @Test
+    public void copyTest3() {
+        // Given
+        SinglyLinkedList<Date> singLinkList = new SinglyLinkedList<>();
+        singLinkList.add(new Date(10000098475L));
+        singLinkList.add(new Date(2459873459L));
+        singLinkList.add(new Date(92304875L));
+        singLinkList.add(new Date(9823475L));
+
+        // When
+        SinglyLinkedList<Date> copy = singLinkList.copy();
+        copy.get(0).setTime(287364928436L);
+
+        // Then
+        Assert.assertNotEquals(singLinkList.get(0), copy.get(0));
+    }
+
+    @Test
+    public void copyTest4() {
+        // Given
+        SinglyLinkedList<Date> singLinkList = new SinglyLinkedList<>();
+        singLinkList.add(new Date(10000098475L));
+        singLinkList.add(new Date(2459873459L));
+        singLinkList.add(new Date(92304875L));
+        singLinkList.add(new Date(9823475L));
+
+        // When
+        SinglyLinkedList<Date> copy = singLinkList.copy();
+        copy.get(0).setTime(287364928436L);
+
+        // Then
+        for (int i = 1; i < singLinkList.size(); i++) {
+            Assert.assertEquals(singLinkList.get(i), copy.get(i));
+        }
     }
 
     @Test
