@@ -243,6 +243,58 @@ public class SinglyLinkedListTest {
     }
 
     @Test
-    public void sort() {
+    public void copyTest5() {
+        // Given
+        SinglyLinkedList<Date> singLinkList = new SinglyLinkedList<>();
+
+        // When
+        SinglyLinkedList<Date> copy = singLinkList.copy();
+
+        // Then
+        Assert.assertEquals(0, (int) copy.size());
+    }
+
+    @Test
+    public void sortTest1() {
+        // Given
+        SinglyLinkedList<Long> singLinkList = new SinglyLinkedList<>();
+        singLinkList.add(43L);
+        singLinkList.add(45L);
+        singLinkList.add(98L);
+        singLinkList.add(987L);
+        Long[] expected = {43L, 45L, 98L, 987L};
+
+        // When
+        singLinkList.sort();
+        Long[] actual = new Long[singLinkList.size()];
+//        for (int i = 0; i < actual.length; i++) {
+//            actual[i] = singLinkList.get(i);
+//        }
+        actual[0] = singLinkList.get(0);
+        actual[1] = singLinkList.get(1);
+        actual[2] = singLinkList.get(2);
+        actual[3] = singLinkList.get(3);
+
+        Assert.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void sortTest2() {
+        // Given
+        SinglyLinkedList<Integer> singLinkList = new SinglyLinkedList<>();
+        singLinkList.add(8734);
+        singLinkList.add(874);
+        singLinkList.add(3874834);
+        singLinkList.add(4);
+        Integer[] expected = {4, 874, 8734, 3874834};
+
+        // When
+        singLinkList.sort();
+        Integer[] actual = new Integer[singLinkList.size()];
+        for (int i = 0; i < actual.length; i++) {
+            actual[i] = singLinkList.get(i);
+        }
+
+        Assert.assertArrayEquals(expected, actual);
     }
 }

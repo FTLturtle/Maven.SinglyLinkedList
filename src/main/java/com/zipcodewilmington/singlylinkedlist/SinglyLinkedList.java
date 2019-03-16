@@ -1,7 +1,6 @@
 package com.zipcodewilmington.singlylinkedlist;
 
 import java.lang.reflect.Method;
-import java.util.Date;
 
 import static java.lang.Thread.sleep;
 
@@ -43,7 +42,11 @@ public class SinglyLinkedList<T> {
                 nodeToRemove = nodeToRemove.next;
             }
             last.next = nodeToRemove.next;
+            if (index == size - 1) {
+                tail = last;
+            }
         }
+        size--;
     }
 
     public Boolean contains(T item) {
@@ -114,7 +117,32 @@ public class SinglyLinkedList<T> {
     }
 
     public void sort() {
+        if (size > 1 && head.item instanceof Comparable) {
+            Node<T> currNode = head;
+            for (int i = size - 1; i > 0; i--) {
+                for (int j = 0; j < i; j++) {
+                    if (node1GreaterThanNode2(currNode, currNode.next)) {
+                        swapNodes(currNode, currNode.next);
+                    }
+                        currNode = currNode.next;
+                }
+                currNode = head;
+            }
+        }
+    }
 
+    private boolean node1GreaterThanNode2(Node<T> currNode, Node<T> next) {
+        boolean result = false;
+            if (currNode.item instanceof Comparable) {
+                result = ((Comparable<T>) currNode.item).compareTo(next.item) > 0;
+            }
+        return result;
+    }
+
+    private void swapNodes(Node<T> currNode, Node<T> nextNode) {
+        T temp = currNode.item;
+        currNode.item = nextNode.item;
+        nextNode.item = temp;
     }
 
     private static class Node<T> {
